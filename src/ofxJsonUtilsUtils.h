@@ -17,13 +17,3 @@
 #define JSON_FUNCS(...) \
 void loadJson(const ofJson &json) {ofxJsonUtils::load(json, KV_COMMA_SEPARATION(__VA_ARGS__));}\
 ofJson toJson() const { return ofxJsonUtils::create(KV_COMMA_SEPARATION(__VA_ARGS__));}
-
-namespace ofx { namespace JsonUtils {
-	static inline const ofJson &convert(const ofJson &json) {
-		return json;
-	}
-	static const inline void parse(const ofJson &src, ofJson &dst) {
-		dst = src;
-	}
-}}
-
