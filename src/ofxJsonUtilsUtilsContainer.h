@@ -44,7 +44,13 @@ public:
 			save_callback_(*this, local);
 		}
 		hierarchySet(local, json);
-		return saveFunc(filepath, json, true, indent);
+		bool is_watching = watcher_.isWatching();
+		watcher_.disableWatching();
+		bool ret = saveFunc(filepath, json, true, indent);
+		if(is_watching) {
+			watcher_.enableWatching();
+		}
+		return ret;
 	}
 	void loadJson(const ofJson &json) {
 		ofxJsonUtils::parse(json, *(Type*)this);
@@ -63,7 +69,7 @@ private:
 			loaded_callback_(*this, json);
 		}
 	}
-	ofxWatchFile watcher_;
+	mutable ofxWatchFile watcher_;
 	std::string filepath_="";
 	std::vector<std::string> hierarchy_={};
 	std::function<void(const Type&, Json&)> save_callback_ = nullptr;
