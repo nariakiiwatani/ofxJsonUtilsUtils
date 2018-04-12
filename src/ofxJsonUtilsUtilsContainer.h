@@ -48,7 +48,7 @@ public:
 		watcher_.disableWatching();
 		bool ret = saveFunc(filepath, json, true, indent);
 		if(is_watching) {
-			watcher_.enableWatching();
+			watcher_.enableWatching(true);
 		}
 		return ret;
 	}
