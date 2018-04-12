@@ -51,7 +51,7 @@ static inline void SaveLoad(Container &container, bool &saved, bool &loaded, con
 	loaded = Load(container);
 }
 template<typename Container>
-static inline void SaveLoad(Container &container, const std::string &default_filename="", int indent=-1) {
+static inline void SaveLoad(Container &container, const std::string &default_filename="", int indent=4) {
 	Save(container, default_filename, indent);
 	ImGui::SameLine();
 	Load(container);
