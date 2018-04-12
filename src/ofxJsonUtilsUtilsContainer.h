@@ -15,12 +15,13 @@ public:
 	}
 	bool load(const std::string &filepath, std::vector<std::string> hierarchy={}) {
 		hierarchy_ = hierarchy;
-		filepath_ = filepath;
 		return watcher_.setTargetPath(filepath);
 	}
 	void setTargetPath(const std::string &filepath) {
-		filepath_ = filepath;
 		watcher_.setTargetPath(filepath, false);
+	}
+	std::string getTargetPath() const {
+		return watcher_.getTargetPath();
 	}
 	void setWillSaveListener(std::function<void(const Type&, Json&)> callback) {
 		save_callback_ = callback;
@@ -32,7 +33,7 @@ public:
 		return watcher_.load();
 	}
 	bool overwrite(int indent=4) const {
-		return writeToFile(filepath_, indent);
+		return writeToFile(watcher_.getTargetPath(), indent);
 	}
 	bool writeToFile(const std::string &filepath, int indent=4) const {
 		if(filepath == "") {
@@ -70,7 +71,6 @@ private:
 		}
 	}
 	mutable ofxWatchFile watcher_;
-	std::string filepath_="";
 	std::vector<std::string> hierarchy_={};
 	std::function<void(const Type&, Json&)> save_callback_ = nullptr;
 	std::function<void(Type&, const Json&)> loaded_callback_ = nullptr;
